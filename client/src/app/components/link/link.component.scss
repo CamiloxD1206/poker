@@ -1,0 +1,59 @@
+@use "../../../styles.scss";
+$border-radius:1px solid #9610FF;
+.link {
+    height: 243px;
+    width: 590px;
+    border-radius: 30px;
+    border-bottom: $border-radius;
+    border-left: $border-radius;
+    border-right: $border-radius;
+    color: white;
+    background-color: #1F0D3F;
+    backdrop-filter: blur(10px);
+    font-family: 'Poppins';
+}
+
+.link__element {
+    display: flex;
+    height: 50px;
+    border-top-left-radius: 26px;
+    border-top-right-radius: 26px;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #6429CD;
+    padding-right: 20px;
+    padding-left: 20px;
+    z-index: 1;
+}
+
+.link__text {
+    font-size: 15px;
+}
+
+.link__text--left {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.link__text--right {
+    font-size: 20px;
+}
+
+.link__secondary-element {
+    height: 193px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.link__input {
+    width: 540px;
+    height: 30px;
+    color: white;
+    padding-left: 10px;
+    background-color: #3300722e;
+    border: solid 1px #6429CD;
+    border-radius: 50px;
+}

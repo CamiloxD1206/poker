@@ -1,0 +1,45 @@
+@use'../../../styles.scss';
+.room-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 85vh;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5%;
+    align-items: center;
+    gap: 15px;
+}
+
+.title-conatiner {
+    font-family: 'Poppins';
+    font-weight: 600;
+    font-size: 21px;
+    display: flex;
+    height: 10vh;
+    align-items: center;
+    padding-top: 15px;
+}
+
+.form-label {
+    font-size: 17px;
+    align-self: flex-start;
+    font-family: 'Poppins';
+    font-weight: bold;
+}
+
+.img-title {
+    height: 80px;
+    width: 90px;
+    margin-left: 50px;
+}
+
+.error-message {
+    font-size: 14px;
+    font-family: 'Poppins';
+}

@@ -1,0 +1,12 @@
+<div class="title-conatiner">
+    <img [src]="imgTitleUrl" alt="pragmalogo" class="img-title">
+    <p class="title">Crear Partida</p>
+</div>
+<div class="room-container">
+    <div class="form-container">
+        <label for="input-room" class="form-label">Nombra la partida</label>
+        <app-input (inputValue)="receiveRoomName($event)"></app-input>
+        <div *ngFor="let errorMessage of errorMessages" class="error-message">{{ errorMessage }}</div>
+        <app-button (buttonClick)="handleButtonClick()" additionalClass="forms-button" [buttonValue]="'Crear Partida'" [isDisabled]="isButtonDisabled"></app-button>
+    </div>
+</div>

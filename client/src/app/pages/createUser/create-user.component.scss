@@ -1,0 +1,72 @@
+@use'../../../styles.scss';
+.user-container {
+    margin: 0;
+    border: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-user {
+    background-color: #6529cd1d;
+    border-radius: 20px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 514px;
+    height: 294px;
+    border-radius: 30px;
+    gap: 25px;
+    background-color: #1F0D3F;
+    box-shadow: 0 0 10px #BB65FF, 0 0 10px #BB65FF, 0 0 2px #BB65FF, inset rgba(255, 255, 255, 0.179) 0 0 20px;
+}
+
+.form-label {
+    font-size: 17px;
+    margin-left: 20%;
+    align-self: flex-start;
+    font-family: 'Poppins';
+    font-weight: bold;
+}
+
+.error-message {
+    font-size: 14px;
+    font-family: 'Poppins';
+}
+
+
+/* estilos radius-buttons */
+
+.radius-buttons {
+    display: flex;
+    flex-direction: row;
+    font-family: 'Poppins';
+    font-weight: 300;
+    gap: 50px;
+}
+
+.radio-button__input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #BB65FF;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    &:hover {
+        box-shadow: 0 0 10px #BB65FF;
+    }
+    &:checked {
+        background-color: #BB65FF;
+    }
+}

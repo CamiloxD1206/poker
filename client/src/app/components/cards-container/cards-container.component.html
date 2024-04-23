@@ -1,0 +1,8 @@
+<div class="cards__container">
+    <h4>Elige una carta 👇</h4>
+    <div class="cards__row">
+        <div *ngFor="let number of specialNumbers">
+            <app-card [value]="number" id="cards" additionalClass="card"></app-card>
+        </div>
+    </div>
+</div>

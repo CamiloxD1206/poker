@@ -1,0 +1,10 @@
+<div class="link">
+    <div class="link__element">
+        <p class="link__text link__text--left">Invitar jugadores</p>
+        <p class="link__text link__text--right">✖</p>
+    </div>
+    <div class="link__secondary-element">
+        <input type="text" class="link__input" [value]="shareableLink" readonly />
+        <app-button [isDisabled]="false" [buttonValue]="'Copiar link'"></app-button>
+    </div>
+</div>

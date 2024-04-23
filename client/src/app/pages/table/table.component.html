@@ -1,0 +1,28 @@
+<div class="table__container">
+    <div class="navContainer">
+        <app-nav-bar [roomId]="roomId" [roomName]="roomName.toUpperCase()" (openOverlay)="openInvitePlayersOverlay()"></app-nav-bar>
+    </div>
+    <div class="table-game-container">
+        <app-game-table></app-game-table>
+    </div>
+
+    <div class="users-container">
+        <ng-container *ngFor="let usuario of joinedUsers">
+            <div class="cards-colum">
+                <app-card [value]="usuario.isAdmin ? usuario.name.substring(0, 2).toUpperCase() : ''" [additionalClass]="usuario.isAdmin ? 'card__radius admin' : 'card--modifier'"></app-card>
+                <div class="card-name">{{ usuario.name }}</div>
+            </div>
+        </ng-container>
+    </div>
+
+    <div class="container-cards">
+        <app-cards-container></app-cards-container>
+    </div>
+    <div *ngIf="showCreateUserComponent" class="overlay">
+        <app-create-user (validationStatus)="receiveOverlayValidation($event)"></app-create-user>
+    </div>
+    <div *ngIf="showInvitePlayersOverlay" class="overlay">
+        <app-link [shareableLink]="getShareableLink()"></app-link>
+    </div>
+
+</div>

@@ -1,0 +1,17 @@
+@use'../../../styles.scss';
+.cards__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Poppins';
+    gap: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.cards__row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}

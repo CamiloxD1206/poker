@@ -1,0 +1,8 @@
+<div class="nav-container" [ngClass]="additionalClass">
+    <img [src]="iconPragma" alt="" class="img-title">
+    <h3>{{ roomName }}</h3>
+    <div class="buttonImg">
+        <img [src]="iconPragma" alt="" class="icon-user">
+        <app-button additionalClass="link--button" [buttonValue]="'Invitar jugadores'" (buttonClick)="openInvitePlayersOverlay()" [isDisabled]="false"></app-button>
+    </div>
+</div>
