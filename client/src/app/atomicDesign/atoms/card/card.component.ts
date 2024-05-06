@@ -8,6 +8,8 @@ import { Component, Input } from '@angular/core';
 export class CardComponent {
   @Input() value: any;
   @Input() additionalClass: string = '';
-  @Input() appCardPosition: string='';
+  @Input() isSelected: boolean = false;
+
+
 
 }

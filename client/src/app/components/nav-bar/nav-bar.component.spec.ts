@@ -1,21 +1,34 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NavBarComponent } from './nav-bar.component';
 
 describe('NavBarComponent', () => {
   let component: NavBarComponent;
-  let fixture: ComponentFixture<NavBarComponent>;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [NavBarComponent]
-    });
-    fixture = TestBed.createComponent(NavBarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = new NavBarComponent();
   });
 
-  it('should create', () => {
+  it('debería crearse', () => {
     expect(component).toBeTruthy();
   });
+
+  it('debería inicializar iconPragma', () => {
+    expect(component.iconPragma).toBe('./../../../assets/img/pragmalogo.png');
+  });
+
+  it('debería inicializar roomId con una cadena vacía', () => {
+    expect(component.roomId).toBe('');
+  });
+
+  it('debería inicializar roomName con una cadena vacía', () => {
+    expect(component.roomName).toBe('');
+  });
+
+  it('debería emitir el evento openOverlay cuando se llama a openInvitePlayersOverlay', () => {
+    spyOn(component.openOverlay, 'emit');
+    component.openInvitePlayersOverlay();
+    expect(component.openOverlay.emit).toHaveBeenCalled();
+  });
+
+
+
 });

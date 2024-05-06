@@ -1,25 +1,26 @@
 <div class="user-container">
-    <div class="form-container">
-        <label for="input-room" class="form-label">Tu nombre</label>
-        <app-input ngClass="input-user" (inputValue)="receiveduserName($event)"></app-input>
-        <div *ngFor="let errorMessage of errorMessages" class="error-message">{{ errorMessage }}</div>
-        <div class="radius-buttons">
-            <div class="radio-button">
-                Jugador
-                <label class="radio-button__label" for="radio1">
-                  <span class="radio-button__custom"></span>
-              </label>
-                <input type="radio" class="radio-button__input" id="radio1" name="radio-group" (change)="rolPlayer = 'Jugador'">
-            </div>
-            <div class="radio-button">
-                Espectador
-                <label class="radio-button__label" for="radio3">
-                  <span class="radio-button__custom"></span>
-              </label>
-                <input type="radio" class="radio-button__input" id="radio3" name="radio-group" (change)="rolPlayer = 'Espectador'">
-            </div>
-
-        </div>
-        <app-button (click)="handleButtonClick()" [buttonValue]="'Continuar'" [isDisabled]="isButtonDisabled"></app-button>
-    </div>
+  <div class="form-container">
+      <label for="input-room" class="form-label">Tu nombre</label>
+      <app-input ngClass="input-user" (inputValue)="receiveduserName($event)"></app-input>
+      <div *ngFor="let errorMessage of errorMessages" class="error-message">{{ errorMessage }}</div>
+      <div class="radius-buttons">
+          <div class="radio-button">
+              Jugador
+              <label class="radio-button__label" for="radio1">
+                <span class="radio-button__custom"></span>
+            </label>
+              <input type="radio" class="radio-button__input" id="radio1" name="radio-group" (change)="rolPlayer = 'Jugador'" checked>
+          </div>
+          <div class="radio-button">
+              Espectador
+              <label class="radio-button__label" for="radio3">
+                <span class="radio-button__custom"></span>
+            </label>
+              <input type="radio" class="radio-button__input" id="radio3" name="radio-group" (change)="rolPlayer = 'Espectador'">
+          </div>
+      </div>
+      <app-button (click)="handleButtonClick()" [buttonValue]="'Continuar'" [isDisabled]="isButtonDisabled"></app-button>
+  </div>
 </div>
+
+

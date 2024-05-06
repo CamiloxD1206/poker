@@ -12,6 +12,7 @@ export class CreateUserComponent {
   @Output() roomIdChanged = new EventEmitter<string>();
   @Output() validationStatus = new EventEmitter<boolean>();
   @Output() userJoined = new EventEmitter<string>();
+  @Output() rolPlayerEmitter = new EventEmitter<string>();
   message: string = "continuar";
   userName: string = "";
   rolPlayer: string = "jugador";
@@ -19,6 +20,7 @@ export class CreateUserComponent {
   textButton: string = "Continuar";
   errorMessages: string[] = [];
   isButtonDisabled: boolean = true;
+  isSpectator: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -26,10 +28,11 @@ export class CreateUserComponent {
     private route: ActivatedRoute
   ) {
     this.route.params.subscribe(params => {
-      this.roomId = params['_id'];
-      console.log('Valor de roomId:', this.roomId);
+        this.roomId = params['_id'] || '';
+        console.log('Valor de roomId:', this.roomId);
     });
   }
+
 
   receiveduserName(userName: string) {
     this.userName = userName;
@@ -68,10 +71,12 @@ export class CreateUserComponent {
 
   sendUserName() {
     const trimmedUserName = this.userName.trim();
+    alert(`Modo de juego seleccionado: ${this.rolPlayer}`);
     this.userService.createUser(trimmedUserName, this.rolPlayer.toLowerCase()).subscribe(
       (response: any) => {
         console.log('Usuario creado:', response);
         alert(`el usuario ${this.userName} ha sido creado`);
+        localStorage.setItem('userId', response.id);
         this.userService.setUserId(response.id);
         console.log('ID del usuario:', this.userService.getUserId());
         console.log(`ID de la sala: ${this.roomId}`);
@@ -98,6 +103,7 @@ export class CreateUserComponent {
         this.roomIdChanged.emit(this.roomId);
         this.validationStatus.emit(true);
         this.userJoined.emit(this.userName);
+        this.rolPlayerEmitter.emit(this.rolPlayer);
       },
       (error: any) => {
         console.error('Error al unirse a la sala:', error);

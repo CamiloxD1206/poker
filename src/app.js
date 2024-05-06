@@ -26,10 +26,11 @@ app.use(cors({
 }));
 
 io.on('connection', (socket) => {
-    console.log('a user connected');
-    socket.on('overlayValidated', (valid) => {
-        io.emit('overlayValidationStatus', valid);
-    });
+  console.log('a user connected');
+  socket.on('overlayValidated', (valid) => {
+      console.log('Overlay validated:', valid);
+      io.emit('overlayValidationStatus', valid);
+  });
 });
 
 

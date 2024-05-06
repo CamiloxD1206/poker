@@ -1,8 +1,8 @@
 <div class="nav-container" [ngClass]="additionalClass">
-    <img [src]="iconPragma" alt="" class="img-title">
+  <img [src]="iconPragma" alt="" class="img-title" (click)="showUserListOverlay()">
     <h3>{{ roomName }}</h3>
     <div class="buttonImg">
-        <img [src]="iconPragma" alt="" class="icon-user">
+     <div class="icon-user"></div>
         <app-button additionalClass="link--button" [buttonValue]="'Invitar jugadores'" (buttonClick)="openInvitePlayersOverlay()" [isDisabled]="false"></app-button>
     </div>
 </div>

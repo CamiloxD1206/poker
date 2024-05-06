@@ -60,9 +60,7 @@ export class CreateRoomComponent {
         console.log("Sala creada exitosamente:", response);
         if (response._id) {
           this.roomCreated.emit({ id: response._id, name: trimmedRoomName });
-          setTimeout(() => {
             this.router.navigate(['/table', response._id]);
-          }, 1000);
         } else {
           console.error("El ID de la sala es indefinido.");
         }

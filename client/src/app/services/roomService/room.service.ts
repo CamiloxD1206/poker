@@ -26,19 +26,24 @@ export class RoomService {
       .pipe(catchError(this.handleError));
   }
 
-  getUsersInRoom(roomId: string): Observable<string[]> {
-    return this.http.get<{ username: string, mode: string }[]>(`${this.baseUrl}/room/${roomId}/users`)
+
+  getUsersInRoom(roomId: string): Observable<{ username: string, isAdmin: boolean }[]> {
+    return this.http.get<{ username: string, mode: string, isAdmin: boolean }[]>(`${this.baseUrl}/room/${roomId}/users`)
       .pipe(
         catchError(this.handleError),
         map((response) => {
           if (Array.isArray(response)) {
-            return response.map(user => user.username);
+            return response.map(user => ({
+              username: user.username,
+              isAdmin: user.mode === 'jugador' && user.isAdmin === true
+            }));
           } else {
             throw new Error('No se encontraron usuarios en la sala');
           }
         })
       );
   }
+
 
   getRoomNameById(roomId: string): Observable<string> {
     return this.http.get<{ roomname: string }>(`${this.baseUrl}/room/${roomId}/name`)
@@ -58,6 +63,15 @@ export class RoomService {
     });
   }
 
+  deleteUserFromRoom(roomId: string, userId: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/room/${roomId}/users/delete`, {
+      withCredentials: true,
+      body: { userId }
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       console.error('Error:', error.error.message);
@@ -66,6 +80,7 @@ export class RoomService {
     }
     return throwError('Error en el servidor al realizar la solicitud');
   }
+  //----------------------------
 
   notifyOverlayValidation(valid: boolean): void {
     this.socket.emit('overlayValidated', valid);

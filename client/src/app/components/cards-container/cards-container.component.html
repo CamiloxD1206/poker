@@ -1,8 +1,17 @@
 <div class="cards__container">
+  <div class="cards__element-title">
     <h4>Elige una carta 👇</h4>
-    <div class="cards__row">
-        <div *ngFor="let number of specialNumbers">
-            <app-card [value]="number" id="cards" additionalClass="card"></app-card>
-        </div>
+  </div>
+  <div class="cards__row">
+    <div *ngFor="let number of specialNumbers">
+      <app-card
+        [value]="number"
+        id="cards"
+        additionalClass="card"
+        [isSelected]="selectedCard === number"
+        [ngClass]="{'inactive': selectedCard !== null && selectedCard !== number}"
+        (click)="onCardSelect(number)">
+      </app-card>
     </div>
+  </div>
 </div>

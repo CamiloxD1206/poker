@@ -1,4 +1,4 @@
-$border-radius: 246px; // Reducido en 30px
+$border-radius: 246px;
 $border-color: #6429CD;
 //--------------------------------
 @mixin centro-flex {
@@ -9,27 +9,27 @@ $border-color: #6429CD;
 
 //------------------------------------
 .table {
-    @include centro-flex;
-    width: 471px; // Reducido en 30px
-    height: 222px; // Reducido en 30px
-    background-color: #1F0D3F;
-    border: solid 1px $border-color;
-    border-radius: $border-radius;
+  @include centro-flex;
+  width: 411px;
+  height: 212px;
+  background-color: #1F0D3F;
+  border: solid 1px $border-color;
+  border-radius: $border-radius;
 }
 
 .second__border__div {
-    @include centro-flex;
-    width: 505px; // Reducido en 30px
-    height: 248px; // Reducido en 30px
-    border: solid 1px #BDBDFF;
-    border-radius: $border-radius;
+  @include centro-flex;
+  width: 442px;
+  height: 240px;
+  border: solid 1px #BDBDFF;
+  border-radius: $border-radius;
 }
 
 .border__table {
-    grid-area: table;
-    @include centro-flex;
-    border-radius: $border-radius;
-    border: solid 2px $border-color;
-    width: 553px; // Reducido en 30px
-    height: 295px; // Reducido en 30px
+  grid-area: table;
+  @include centro-flex;
+  border-radius: $border-radius;
+  border: solid 2px $border-color;
+  width: 475px;
+  height: 265px;
 }

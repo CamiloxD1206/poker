@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./game-table.component.scss']
 })
 export class GameTableComponent {
-  names: string[] = ['Nombre1', 'Nombre2', 'Nombre3', 'Nombre4', 'Nombre5'];
+
 }

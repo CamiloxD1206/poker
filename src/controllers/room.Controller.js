@@ -25,8 +25,7 @@ export const getAllRooms = async(req, res) => {
         res.status(500).json({ error: 'Error en el servidor al obtener las salas' });
     }
 };
-
-export const joinRoom = async(req, res) => {
+export const joinRoom = async (req, res) => {
     const roomId = req.params.roomId;
     const userId = req.user.id;
 
@@ -34,6 +33,10 @@ export const joinRoom = async(req, res) => {
         const room = await Room.findById(roomId);
         if (!room) {
             return res.status(404).json({ error: 'Sala no encontrada' });
+        }
+
+        if (room.users.length >= 8) {
+            return res.status(400).json({ error: 'La sala está llena' });
         }
 
         if (room.users.includes(userId)) {
@@ -51,12 +54,13 @@ export const joinRoom = async(req, res) => {
 };
 
 
-
-export const getUsersInRoom = async(req, res) => {
+export const getUsersInRoom = async (req, res) => {
     const { roomId } = req.params;
 
     try {
-        const room = await Room.findById(roomId).populate('users', 'username mode').populate('admin', 'username mode');
+        const room = await Room.findById(roomId)
+            .populate('users', 'username mode')
+            .populate('admin', 'username mode');
 
         if (!room) {
             return res.status(404).json({ error: 'Sala no encontrada' });
@@ -64,18 +68,14 @@ export const getUsersInRoom = async(req, res) => {
 
         const usersWithAdmin = [];
 
-        if (room.admin) {
-            usersWithAdmin.push({
-                username: room.admin.username,
-                mode: room.admin.mode
-            });
-        }
-
-        room.users.forEach(user => {
+        room.users.forEach((user, index) => {
             if (user) {
+                const isAdmin = index === 0; 
                 usersWithAdmin.push({
+                    _id: user._id, 
                     username: user.username,
-                    mode: user.mode
+                    mode: user.mode,
+                    isAdmin: isAdmin
                 });
             }
         });
@@ -86,6 +86,7 @@ export const getUsersInRoom = async(req, res) => {
         res.status(500).json({ error: 'Error en el servidor al obtener usuarios en la sala' });
     }
 };
+
 
 export const getRoomNameById = async(req, res) => {
     const roomId = req.params.roomId;
@@ -118,5 +119,39 @@ export const getRoomByAdmin = async(req, res) => {
     } catch (error) {
         console.error('Error al obtener la sala del administrador:', error);
         res.status(500).json({ error: 'Error en el servidor al obtener la sala del administrador' });
+    }
+};
+//---------------------------
+export const deleteUserById = async (req, res) => {
+    const { roomId } = req.params;
+    const { userId } = req.body;
+    const userDeletingId = req.user.id; 
+
+    try {
+        const room = await Room.findById(roomId);
+        if (!room) {
+            return res.status(404).json({ error: 'Sala no encontrada' });
+        }
+
+       
+        const userMakingRequest = room.users.find(user => user._id.toString() === userDeletingId);
+        if (!userMakingRequest) {
+            return res.status(403).json({ error: 'No estás autorizado para realizar esta acción' });
+        }
+
+   
+        const userToDeleteIndex = room.users.findIndex(user => user._id.toString() === userId);
+        if (userToDeleteIndex === -1) {
+            return res.status(404).json({ error: 'Usuario no encontrado en la sala' });
+        }
+
+    
+        room.users.splice(userToDeleteIndex, 1);
+        await room.save();
+
+        res.status(200).json({ message: 'Usuario eliminado exitosamente', deletedUserId: userId });
+    } catch (error) {
+        console.error('Error al eliminar usuario de la sala:', error);
+        res.status(500).json({ error: 'Error en el servidor al eliminar usuario de la sala' });
     }
 };

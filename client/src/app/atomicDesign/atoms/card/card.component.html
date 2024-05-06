@@ -1,5 +1,5 @@
-<div [ngClass]="additionalClass">
-    <div class="first-content">
-        <span>{{ value }}</span>
-    </div>
+<div [ngClass]="['card', isSelected ? 'card--selected' : '', additionalClass]">
+  <div class="first-content">
+    <span>{{ value }}</span>
+  </div>
 </div>

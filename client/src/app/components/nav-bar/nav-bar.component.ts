@@ -10,6 +10,7 @@ export class NavBarComponent {
   @Input() roomId: string = "";
   @Input() roomName: string = "";
   @Output() openOverlay = new EventEmitter<void>();
+  @Output() showUserList = new EventEmitter<void>();
   additionalClass:string=""
 
   constructor() {}
@@ -19,7 +20,8 @@ export class NavBarComponent {
     this.openOverlay.emit();
   }
 
-  getRoomLink(): string {
-    return `http://localhost:4200/#/table/${this.roomId}`;
+  showUserListOverlay() {
+    this.showUserList.emit();
   }
+
 }

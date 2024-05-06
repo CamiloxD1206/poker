@@ -1,0 +1,11 @@
+<div class="list">
+  <div class="list__element" *ngIf="isAdmin">
+    <h3 class="list__title">Jugadores en sala</h3>
+    <ul class="list__users">
+      <li *ngFor="let user of usersInRoom" class="list__user">
+        {{ user.username }}
+        <app-button class="list__button list__button--bottom" [isDisabled]="false" [buttonValue]="'Expulsar Jugador'"></app-button>
+      </li>
+    </ul>
+  </div>
+</div>
