@@ -5,21 +5,14 @@
   <div class="user-container" id="users">
     <app-game-table class="tabla"></app-game-table>
     <ng-container *ngFor="let usuario of joinedUsers; let i = index">
-      <div class="cards-column"
-           [ngClass]="{ 'user-selected': usuario.isSelected, 'user-card-selected': usuario.isSelected }"
-           [ngStyle]="{'grid-area': usuario.area, 'margin': '2px','display':'flex','justify-content':'space-around'}">
-           <app-card [value]="usuario.isAdmin ? usuario.name.substring(0, 2) : ''"
-           [additionalClass]="usuario.isAdmin ? 'card__radius admin' : 'card--user'"
-           [isSelected]="usuario.isSelected">
- </app-card>
-
-
+      <div class="cards-column" [ngClass]="{ 'user-selected': usuario.isSelected, 'user-card-selected': usuario.isSelected }" [ngStyle]="{'grid-area': usuario.area, 'margin': '2px','display':'flex','justify-content':'space-around'}">
+        <app-card [value]="usuario.isAdmin ? usuario.name.substring(0, 2) : ''" [additionalClass]="usuario.isAdmin ? 'card__radius admin' : 'card--user'" [isSelected]="usuario.isSelected">
+        </app-card>
         <div class="card-name">{{ usuario.name }}</div>
       </div>
     </ng-container>
   </div>
-
-  <div class="container-cards" *ngIf="isPlayerRole">
+  <div class="container-cards" *ngIf="!isSpectator()">
     <app-cards-container></app-cards-container>
   </div>
   <div *ngIf="showCreateUserComponent" class="overlay">
@@ -31,5 +24,4 @@
   <div *ngIf="showUserListOverlay" class="overlay--modifier">
     <app-user-list [roomId]="roomId"></app-user-list>
   </div>
-
 </div>

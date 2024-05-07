@@ -77,5 +77,4 @@ describe('TableComponent', () => {
     expect(component.roomName).toBe('Room Name');
   });
 
-  // Agrega más pruebas para las demás funcionalidades del componente...
 });

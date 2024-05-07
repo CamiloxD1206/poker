@@ -1,29 +1,31 @@
 @use'../../../styles.scss';
+
 .cards__container {
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Poppins';
-    gap: 5px;
-    padding-top: 20px;
-    width: 100%;
-}
-.cards__element-title{
-  text-align: center;
-  margin-left: 6%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins';
+  gap: 5px;
+  padding-top: 20px;
   width: 100%;
+}
 
+.cards__element-title {
+text-align: center;
+margin-left: 6%;
+width: 100%;
 }
 
 .cards__row {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-.inactive {
-  opacity: 0.5;
-  pointer-events: none;
+
+
+.cards__card--inactive {
+opacity: 0.5;
+pointer-events: none;
 }

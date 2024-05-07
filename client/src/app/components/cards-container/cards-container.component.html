@@ -3,13 +3,13 @@
     <h4>Elige una carta 👇</h4>
   </div>
   <div class="cards__row">
-    <div *ngFor="let number of specialNumbers">
+    <div *ngFor="let number of specialNumbers" class="cards__card">
       <app-card
         [value]="number"
         id="cards"
         additionalClass="card"
         [isSelected]="selectedCard === number"
-        [ngClass]="{'inactive': selectedCard !== null && selectedCard !== number}"
+        [ngClass]="{'cards__card--inactive': selectedCard !== null && selectedCard !== number}"
         (click)="onCardSelect(number)">
       </app-card>
     </div>

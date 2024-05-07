@@ -14,7 +14,7 @@ describe('CreateUserComponent', () => {
     const userServiceSpy = jasmine.createSpyObj('UserService', ['createUser', 'loginUser', 'setUserId', 'getUserId']);
     const roomServiceSpy = jasmine.createSpyObj('RoomService', ['joinRoom']);
 
-    // Simulating ActivatedRoute with the _id parameter set to '6638fdcd99a39d88adc983b8'
+
     const activatedRouteSpy = {
       params: of({ _id: '6638fdcd99a39d88adc983b8' })
     };
