@@ -43,3 +43,19 @@
     font-size: 14px;
     font-family: 'Poppins';
 }
+
+.logout{
+  height: 30px;
+  border: 0;
+  border-radius: 20px;
+  font-family: 'Poppins';
+  font-weight: bold;
+  width: 140px;
+  color: #330072;
+}
+.logout-container {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  margin-right: 50px;
+}

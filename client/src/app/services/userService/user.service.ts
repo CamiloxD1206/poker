@@ -15,7 +15,7 @@ export class UserService {
 
   createUser(username: string, mode: string): Observable<{ userId: string, username: string }> {
     return this.http.post<{ userId: string, username: string }>(`${this.baseUrl}/register`, { username, mode }).pipe(
-      tap(response => {
+      tap((response: { userId: string, username: string }) => {
         this.userId = response.userId;
         this.username = response.username;
       })
@@ -24,7 +24,7 @@ export class UserService {
 
   loginUser(username: string): Observable<{ userId: string, username: string }> {
     return this.http.post<{ userId: string, username: string }>(`${this.baseUrl}/login`, { username }, { withCredentials: true }).pipe(
-      tap(response => {
+      tap((response: { userId: string, username: string }) => {
         this.userId = response.userId;
         this.username = response.username;
       })
@@ -38,16 +38,14 @@ export class UserService {
   getUserId(): string {
     return this.userId;
   }
-  setUserId(userId: string) {
+  setUserId(userId: string): void {
     this.userId = userId;
   }
 
   getUsername(): string {
     return this.username;
   }
-  setUsername(username: string) {
+  setUsername(username: string): void {
     this.username = username;
   }
-
-
 }

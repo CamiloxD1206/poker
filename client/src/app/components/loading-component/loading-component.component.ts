@@ -18,7 +18,7 @@ export class LoadingComponentComponent implements OnInit {
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.ngZone.run(() => {
-          this.router.navigate(['/roomct']);
+          this.router.navigate(['/login']);
         });
       }, 3000);
     });

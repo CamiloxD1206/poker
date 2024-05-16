@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { RoomService } from 'src/app/services/roomService/room.service';
+import { CognitoService } from '../../services/cognitoService/cognito.service';
 
 @Component({
   selector: 'app-create-room',
@@ -8,13 +9,16 @@ import { RoomService } from 'src/app/services/roomService/room.service';
   styleUrls: ['./create-room.component.scss']
 })
 export class CreateRoomComponent {
+
+
+
   @Output() roomCreated = new EventEmitter<{ id: string, name: string }>();
   imgTitleUrl: string = "../../../../assets/img/pragmalogo.png";
   roomName: string = "";
   errorMessages: string[] = [];
   isButtonDisabled: boolean = true;
 
-  constructor(private roomService: RoomService, private router: Router) {}
+  constructor(private roomService: RoomService, private router: Router,private cognitoService: CognitoService, ) {}
 
   receiveRoomName(roomName: string) {
     this.roomName = roomName;
@@ -65,9 +69,19 @@ export class CreateRoomComponent {
           console.error("El ID de la sala es indefinido.");
         }
       },
-      (error: any) => {
+      () => {
         alert(`Error al crear la sala: Rectifica que el nombre cumpla con todas las validaciones que están en pantalla y este no contenga espacios en blanco`);
       }
     );
   }
+
+  signOut(): void {
+    this.cognitoService.handleSignOut();
+    this.clearLocalStorage()
+    this.router.navigate(['/login']);
+  }
+  clearLocalStorage() {
+    localStorage.clear();
+  }
+
 }

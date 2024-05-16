@@ -5,7 +5,7 @@
   <div class="cards__row">
     <div *ngFor="let number of specialNumbers" class="cards__card">
       <app-card
-        [value]="number"
+        [value]="number.toString()"
         id="cards"
         additionalClass="card"
         [isSelected]="selectedCard === number"

@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { Subscription, forkJoin } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Socket } from 'socket.io-client';
 import { RoomService } from '../../services/roomService/room.service';
 import { CardsContainerComponent } from '../../components/cards-container/cards-container.component';
@@ -29,18 +29,22 @@ export class TableComponent implements OnInit, OnDestroy {
   userName = '';
   isAdmin = false;
   userToken = '';
+  //---------------------------------------------------
   joinedUsers: {
+    userId:string;
     name: string;
     isAdmin: boolean;
     isSelected: boolean;
     area: string;
     score?: number;
   }[] = [];
+  //-----------------------------------------------
   usersInRoomSubscription: Subscription | undefined;
   socket$: Socket;
   selectedCards: any[] = [];
   selectedCard: any;
-  selectedCardsByUser: { [userName: string]: any } = {};
+  selectedUserName: string | null = null;
+
   private readonly areas: string[] = [
     'top-left',
     'top',
@@ -60,20 +64,21 @@ export class TableComponent implements OnInit, OnDestroy {
     private roomService: RoomService
   ) {
     this.socket$ = this.roomService.getSocket();
-
     this.route.params.subscribe(params => {
       this.roomId = params['_id'];
       this.roomIdChanged.emit(this.roomId);
       this.roomService.joinRoomWebSocket(this.roomId);
       this.getRoomInfo();
     });
+
   }
+
 
   ngOnInit() {
     this.userToken = this.cookieService.get('token');
     this.showCreateUserComponent = this.userToken === '';
     this.usersInRoomSubscription = this.roomService.getUsersInRoom(this.roomId).subscribe((users: { username: string; isAdmin: boolean; }[]) => {
-      this.joinedUsers = users.map((user, index) => ({ name: user.username, isAdmin: user.isAdmin, isSelected: false, area: this.areas[index % this.areas.length] }));
+      this.joinedUsers = users.map((user, index) => ({ userId:this.userId, name: user.username, isAdmin: user.isAdmin, isSelected: false, area: this.areas[index % this.areas.length] }));
     });
 
     this.roomService.newUserJoined.subscribe((users: string[]) => {
@@ -119,6 +124,7 @@ export class TableComponent implements OnInit, OnDestroy {
       .pipe(
         map((users: any[]) =>
           users.map((user, index) => ({
+            userId:this.userId,
             name: user.username,
             isAdmin: user.isAdmin,
             isSelected: false,
@@ -138,7 +144,7 @@ export class TableComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToOverlayValidation() {
-    this.socket$.on('overlayValidationStatus', (valid: boolean) => {});
+    this.socket$.on('overlayValidationStatus', () => {});
   }
 
   toggleOverlay() {
@@ -158,7 +164,7 @@ export class TableComponent implements OnInit, OnDestroy {
     this.validationStatus.emit(true);
   }
 
-  handleUserJoined(userName: string) {
+  handleUserJoined() {
     this.showCreateUserComponent = false;
   }
 
@@ -167,6 +173,7 @@ export class TableComponent implements OnInit, OnDestroy {
       alert('El número de usuarios es mayor a 8');
     } else {
       this.joinedUsers = users.map((user, index) => ({
+        userId:this.userId,
         name: user.username,
         isAdmin: user.isAdmin,
         isSelected: false,
@@ -199,4 +206,14 @@ export class TableComponent implements OnInit, OnDestroy {
     const storedRolPlayer = localStorage.getItem('rolPlayer');
     return storedRolPlayer === 'espectador';
   }
+  handleCardSelection(selectedCardAndUserId: { card: any, userId: string }) {
+    this.socket$.emit('cardSelected', selectedCardAndUserId);
+    const userId = selectedCardAndUserId.userId;
+    const selectedUser = this.joinedUsers.find(user => user.userId === userId);
+    if (selectedUser) {
+      selectedUser.isSelected = true;
+    }
+  }
+
+
 }

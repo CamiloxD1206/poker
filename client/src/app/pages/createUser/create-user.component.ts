@@ -31,6 +31,7 @@ export class CreateUserComponent {
         this.roomId = params['_id'] || '';
         console.log('Valor de roomId:', this.roomId);
     });
+
   }
 
 
@@ -77,11 +78,12 @@ export class CreateUserComponent {
         console.log('Usuario creado:', response);
         alert(`el usuario ${this.userName} ha sido creado`);
         localStorage.setItem('userId', response.id);
+        localStorage.setItem('userName',response.userName)
         this.userService.setUserId(response.id);
         console.log('ID del usuario:', this.userService.getUserId());
         console.log(`ID de la sala: ${this.roomId}`);
         this.userService.loginUser(trimmedUserName).subscribe(
-          (loginResponse: any) => {
+          () => {
             alert(`Usuario logueado con éxito. ID del usuario: ${this.userService.getUserId()}, ID de la sala: ${this.roomId}`);
             this.joinRoom();
           },

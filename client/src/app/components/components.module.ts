@@ -8,6 +8,8 @@ import { LoadingComponentComponent } from './loading-component/loading-component
 import { LinkComponent } from './link/link.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { ModeComponent } from './mode/mode.component';
+import { LoginComponent } from './login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -19,11 +21,13 @@ import { ModeComponent } from './mode/mode.component';
     LoadingComponentComponent,
     LinkComponent,
     UserListComponent,
-    ModeComponent
+    ModeComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,
-    AtomicModule
+    AtomicModule,
+    ReactiveFormsModule,
   ],exports:[
     NavBarComponent,
     GameTableComponent,
@@ -31,7 +35,8 @@ import { ModeComponent } from './mode/mode.component';
     LoadingComponentComponent,
     LinkComponent,
     UserListComponent,
-    ModeComponent
+    ModeComponent,
+    LoginComponent
   ]
 })
 export class ComponentsModule { }

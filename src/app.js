@@ -25,13 +25,23 @@ app.use(cors({
     credentials: true
 }));
 
+const selectedCards = [];
+
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  console.log('un usuario a ingresado a la sala');
   socket.on('overlayValidated', (valid) => {
       console.log('Overlay validated:', valid);
       io.emit('overlayValidationStatus', valid);
   });
+
+   socket.on('cardSelected', ({ card, userId }) => {
+    console.log('Carta seleccionada:', card);
+    console.log('ID de usuario:', userId);
+    selectedCards.push({ card: card, userId: userId });
+    console.log('Cartas acumuladas:', selectedCards);
+  });
 });
+ 
 
 
 app.use('/api', authRoutes);

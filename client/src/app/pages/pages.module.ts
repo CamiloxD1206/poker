@@ -5,6 +5,7 @@ import { CreateRoomComponent } from './createRoom/create-room.component';
 import { AtomicModule } from '../atomicDesign/atomic.module';
 import { ComponentsModule } from '../components/components.module';
 import { TableComponent } from './table/table.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { TableComponent } from './table/table.component';
   imports: [
     CommonModule,
     AtomicModule,
-    ComponentsModule
+    ComponentsModule,
+    FormsModule
   ],
   exports: [
     CreateUserComponent,

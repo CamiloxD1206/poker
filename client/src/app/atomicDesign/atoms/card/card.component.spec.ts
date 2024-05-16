@@ -9,7 +9,7 @@ import { CardComponent } from './card.component';
   `,
 })
 class TestHostComponent {
-  value: any;
+  value: string="";
   additionalClass: string="";
   isSelected: boolean=false;
 }

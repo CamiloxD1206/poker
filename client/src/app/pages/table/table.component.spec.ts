@@ -1,17 +1,17 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { of } from 'rxjs';
 import { TableComponent } from './table.component';
 import { RoomService } from '../../services/roomService/room.service';
-import { CardsContainerComponent } from '../../components/cards-container/cards-container.component';
 
 describe('TableComponent', () => {
   let component: TableComponent;
   let fixture: ComponentFixture<TableComponent>;
   let roomService: RoomService;
-  let activatedRoute: ActivatedRoute;
-  let cookieService: CookieService;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let cookieServiceSpy: jasmine.SpyObj<CookieService>;
 
   beforeEach(async () => {
     const roomServiceSpy = jasmine.createSpyObj('RoomService', [
@@ -21,60 +21,94 @@ describe('TableComponent', () => {
       'getUsersInRoom',
       'notifyOverlayValidation',
     ]);
-    const activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params'], {
-      params: of({ _id: 'room123' }),
+    roomServiceSpy.getUsersInRoom.and.returnValue(of([]));
+    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params'], {
+      params: of(convertToParamMap({ _id: '663b9aff5b247bfe61e81b04' })),
     });
-    const cookieServiceSpy = jasmine.createSpyObj('CookieService', ['get']);
+    cookieServiceSpy = jasmine.createSpyObj('CookieService', ['get']);
 
     await TestBed.configureTestingModule({
-      declarations: [TableComponent, CardsContainerComponent],
+      declarations: [TableComponent],
       providers: [
         { provide: RoomService, useValue: roomServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: CookieService, useValue: cookieServiceSpy },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TableComponent);
     component = fixture.componentInstance;
     roomService = TestBed.inject(RoomService);
-    activatedRoute = TestBed.inject(ActivatedRoute);
-    cookieService = TestBed.inject(CookieService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize properties', () => {
-    expect(component.showInvitePlayersOverlay).toBeFalsy();
-    expect(component.showCreateUserComponent).toBeTruthy();
-    expect(component.showUserListOverlay).toBeFalsy();
-    expect(component.overlayValid).toBeFalsy();
-    expect(component.roomId).toBe('room123');
-    expect(component.roomName).toBe('');
-    expect(component.userName).toBe('');
-    expect(component.isAdmin).toBeFalsy();
-    expect(component.userToken).toBe('');
-    expect(component.isSpectator).toBeFalsy();
-    expect(component.joinedUsers).toEqual([]);
-    expect(component.selectedCards).toEqual([]);
-    expect(component.selectedCard).toBeNull();
-    expect(component.selectedCardsByUser).toEqual({});
-    expect(component.isPlayerRole).toBeTruthy();
+
+
+  it('should handle new user joined correctly', () => {
+    const newUsers = [
+      { username: 'user1', isAdmin: true },
+      { username: 'user2', isAdmin: false },
+      { username: 'user3', isAdmin: false },
+    ];
+
+    component.handleNewUserJoined(newUsers);
+
+    expect(component.joinedUsers).toEqual([
+      { userId: '', name: 'user1', isAdmin: true, isSelected: false, area: 'top-left' },
+      { userId: '', name: 'user2', isAdmin: false, isSelected: false, area: 'top' },
+      { userId: '', name: 'user3', isAdmin: false, isSelected: false, area: 'top-right' },
+    ]);
   });
 
-  it('should subscribe to room service observables on init', () => {
-    spyOn(roomService, 'joinRoomWebSocket');
-    spyOn(roomService, 'getUsersInRoom').and.returnValue(of([]));
-    spyOn(roomService, 'getRoomNameById').and.returnValue(of('Room Name'));
+  it('should alert when more than 8 users joined', () => {
+    spyOn(window, 'alert');
+    const newUsers = Array.from({ length: 9 }, (_, i) => ({ username: `user${i + 1}`, isAdmin: false }));
 
-    component.ngOnInit();
+    component.handleNewUserJoined(newUsers);
 
-    expect(roomService.joinRoomWebSocket).toHaveBeenCalledWith('room123');
-    expect(roomService.getUsersInRoom).toHaveBeenCalledWith('room123');
-    expect(roomService.getRoomNameById).toHaveBeenCalledWith('room123');
-    expect(component.roomName).toBe('Room Name');
+    expect(window.alert).toHaveBeenCalledWith('El número de usuarios es mayor a 8');
   });
 
+
+
+  it('should receive overlay validation correctly', () => {
+    component.receiveOverlayValidation(true);
+    expect(component.overlayValid).toBeTruthy();
+    expect(component.showCreateUserComponent).toBeFalsy();
+    expect(roomService.notifyOverlayValidation).toHaveBeenCalledWith(true);
+  });
+
+  it('should receive room created correctly', () => {
+    const roomIdChangedSpy = spyOn(component.roomIdChanged, 'emit');
+    const validationStatusSpy = spyOn(component.validationStatus, 'emit');
+
+    component.receiveRoomCreated('new_room_id');
+    expect(component.roomId).toBe('new_room_id');
+    expect(roomIdChangedSpy).toHaveBeenCalledWith('new_room_id');
+    expect(validationStatusSpy).toHaveBeenCalledWith(true);
+  });
+
+  it('should handle user joined correctly', () => {
+    component.showCreateUserComponent = true;
+    component.handleUserJoined();
+    expect(component.showCreateUserComponent).toBeFalsy();
+  });
+
+  it('should get shareable link correctly', () => {
+    component.roomId = 'test_room_id';
+    const shareableLink = component.getShareableLink();
+    expect(shareableLink).toBe('http://localhost:4200/#/table/test_room_id');
+  });
+
+  it('should determine spectator role correctly', () => {
+    localStorage.removeItem('rolPlayer');
+    expect(component.isSpectator()).toBeFalsy();
+
+    localStorage.setItem('rolPlayer', 'espectador');
+    expect(component.isSpectator()).toBeTruthy();
+  });
 });

@@ -59,19 +59,13 @@ export const logout = (req, res) => {
 export const updateMode = async (req, res) => {
     const { mode } = req.body;
     const userId = req.user.id; 
-
     try {
-        
         const user = await User.findById(userId);
-        
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrado" });
         }
-
-      
         user.mode = mode;
         await user.save();
-
         res.json({
             id: user._id,
             username: user.username,

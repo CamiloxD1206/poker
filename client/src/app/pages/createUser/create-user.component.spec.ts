@@ -1,7 +1,6 @@
 import { CreateUserComponent } from './create-user.component';
 import { UserService } from 'src/app/services/userService/user.service';
 import { RoomService } from '../../services/roomService/room.service';
-import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { of } from 'rxjs';
 
 describe('CreateUserComponent', () => {
